@@ -2,15 +2,9 @@ package es.siriot.devtest.alten.inditex.catalog.be.dto;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.Data;
 
-@AllArgsConstructor
-@Getter
-@Builder
-@ToString
+@Data
 public class ProductDetail {
 
     @NotNull(message = "The 'id' cannot be null.")

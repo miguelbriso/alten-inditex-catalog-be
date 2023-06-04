@@ -8,6 +8,12 @@ spring:
     profiles:
         active: '@spring.profiles.active@'
 
+resilience:
+    slidingWindowSize: 10
+    waitDurationInOpenState: 5
+    minimumNumberOfCalls: 5
+    failureRateThreshold: 50.0
+
 external:
     product:
         service:
