@@ -1,13 +1,14 @@
 package es.siriot.devtest.alten.inditex.catalog.be.controllers.impl;
 
-import es.siriot.devtest.alten.inditex.catalog.be.exceptions.ExceptionHandler;
 import es.siriot.devtest.alten.inditex.catalog.be.controllers.SimilarProductsController;
 import es.siriot.devtest.alten.inditex.catalog.be.dto.ProductDetail;
+import es.siriot.devtest.alten.inditex.catalog.be.exceptions.ExceptionHandlerCustom;
 import es.siriot.devtest.alten.inditex.catalog.be.exceptions.ProductNotFoundException;
 import es.siriot.devtest.alten.inditex.catalog.be.services.SimilarProductsService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,8 +19,9 @@ import java.util.List;
 @RequiredArgsConstructor
 @Slf4j
 @RestController
-public class SimilarProductsControllerImpl extends ExceptionHandler implements SimilarProductsController {
+public class SimilarProductsControllerImpl extends ExceptionHandlerCustom implements SimilarProductsController {
 
+    @Autowired
     private SimilarProductsService similarProductsService;
 
     @Override
@@ -28,6 +30,8 @@ public class SimilarProductsControllerImpl extends ExceptionHandler implements S
         log.debug("Call [getSimilarProducts] productId = {}.", productId);
 
         List<ProductDetail> similarProducts = similarProductsService.getSimilarProducts(productId);
+
+        log.debug(similarProducts.toString());
 
         if (similarProducts.isEmpty()) {
             log.debug("The product {} have not similar products.", productId);
