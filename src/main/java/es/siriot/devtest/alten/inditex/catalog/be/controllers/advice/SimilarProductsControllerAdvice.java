@@ -1,6 +1,7 @@
 package es.siriot.devtest.alten.inditex.catalog.be.controllers.advice;
 
 import es.siriot.devtest.alten.inditex.catalog.be.exceptions.ProductNotFoundException;
+import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -19,12 +20,12 @@ public class SimilarProductsControllerAdvice {
         return e.getMessage();
     }
 
-//    @ExceptionHandler({CallNotPermittedException.class})
-//    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
-//    public String handleCallNotPermittedException(Exception e) {
-//        log.debug("Service unavailable (CallNotPermittedException): {}", e.getMessage());
-//        return e.getMessage();
-//    }
+    @ExceptionHandler({CallNotPermittedException.class})
+    @ResponseStatus(HttpStatus.SERVICE_UNAVAILABLE)
+    public String handleCallNotPermittedException(Exception e) {
+        log.debug("Service unavailable (CallNotPermittedException): {}", e.getMessage());
+        return e.getMessage();
+    }
 
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)

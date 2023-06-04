@@ -1,6 +1,7 @@
 package es.siriot.devtest.alten.inditex.catalog.be.services;
 
 import es.siriot.devtest.alten.inditex.catalog.be.dto.ProductDetail;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class SimilarProductsService {
     private String baseURL;
 
     @Cacheable(value = "similarProducts")
-//    @CircuitBreaker(name = "getSimilarProducts")
+    @CircuitBreaker(name = "getSimilarProducts")
     public List<ProductDetail> getSimilarProducts(@NotNull String productId) {
 
         List<String> similarProductIds = webClient
@@ -39,7 +40,7 @@ public class SimilarProductsService {
     }
 
     @Cacheable(value = "productDetail")
-//    @CircuitBreaker(name = "getProductDetail")
+    @CircuitBreaker(name = "getProductDetail")
     private void getProductDetail(List<ProductDetail> list, @NotNull String productId) {
 
         ProductDetail productDetail = webClient

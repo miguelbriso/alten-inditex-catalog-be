@@ -8,7 +8,6 @@ spring:
     profiles:
         active: '@spring.profiles.active@'
 
-
 external:
     product:
         service:
