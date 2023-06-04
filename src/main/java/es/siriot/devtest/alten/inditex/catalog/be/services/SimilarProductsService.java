@@ -14,7 +14,6 @@ import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.reactive.function.client.WebClient;
-import org.springframework.web.reactive.function.client.WebClientResponseException.NotFound;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +40,8 @@ public class SimilarProductsService {
                 .bodyToMono(new ParameterizedTypeReference<List<String>>() {})
                 .block();
 
+        log.debug(similarProductIds.toString());
+
         return similarProductIds.parallelStream().collect(ArrayList::new, this::getProductDetail, ArrayList::addAll);
     }
 
@@ -48,9 +49,7 @@ public class SimilarProductsService {
     @CircuitBreaker(name = "getProductDetail")
     private void getProductDetail(List<ProductDetail> list, @NotNull String productId) {
 
-        ProductDetail productDetail;
-
-        productDetail = webClient
+        ProductDetail productDetail = webClient
             .get()
             .uri(baseURL + "/product/{productId}", productId)
             .retrieve()
